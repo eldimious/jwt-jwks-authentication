@@ -7,11 +7,6 @@ const getClient = opts => jwksClient({
   jwksUri: opts.jwksUri,
 });
 
-module.exports = function init(opts) {
-  const client = getClient(opts);
-};
-
-
 function verifyToken(token, cb) {
   let decodedToken;
   try {
@@ -40,6 +35,25 @@ function verifyToken(token, cb) {
   });
 }
 
+const getJWTFromAuthHeader = function getJWTFromAuthHeader(req) {
+  if (!req.headers || !req.headers.authorization) {
+    throw new errors.Unauthorized('No authorization token found.');
+    // res.status(401).send('No authorization token found.');
+    // return;
+  }
+  const parts = req.headers.authorization.split(' ');
+  if (parts.length !== 2) {
+    throw new errors.Unauthorized('No authorization token found.');
+    // res.status(401).send('Bad credential format.');
+    // return;
+  }
+  const [scheme, credentials] = parts;
+  if (!/^Bearer$/i.test(scheme)) {
+    throw new errors.Unauthorized('Bad credential format.');
+  }
+  return credentials;
+};
+
 function checkAuth (fn) {
   return function (req, res) {
     if (!req.headers || !req.headers.authorization) {
@@ -67,3 +81,7 @@ function checkAuth (fn) {
     });
   };
 }
+
+module.exports = function init(opts) {
+  const client = getClient(opts);
+};
