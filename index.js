@@ -1,87 +1,19 @@
-const jwksClient = require('jwks-rsa');
+const authenticationServiceModule = require('./domain/authenticationService');
 
-const getClient = opts => jwksClient({
-  cache: opts.cache || true,
-  rateLimit: opts.rateLimit || true,
-  jwksRequestsPerMinute: opts.requestsPerMinute || 10,
-  jwksUri: opts.jwksUri,
-});
-
-function verifyToken(token, cb) {
-  let decodedToken;
-  try {
-    decodedToken = jwt.decode(token, {complete: true});
-  } catch (e) {
-    console.error(e);
-    cb(e);
-    return;
+const validateConfiguration = function validateConfiguration(config) {
+  if (!config || !config.jwksUri) {
+    throw new Error('Add configuration object included jwksUri.');
   }
-  client.getSigningKey(decodedToken.header.kid, function (err, key) {
-    if (err) {
-      console.error(err);
-      cb(err);
-      return;
-    }
-    const signingKey = key.publicKey || key.rsaPublicKey;
-    jwt.verify(token, signingKey, function (err, decoded) {
-      if (err) {
-        console.error(err);
-        cb(err);
-        return
-      }
-      console.log(decoded);
-      cb(null, decoded);
-    });
-  });
-}
-
-const getJWTFromAuthHeader = function getJWTFromAuthHeader(req) {
-  if (!req.headers || !req.headers.authorization) {
-    throw new errors.Unauthorized('No authorization token found.');
-    // res.status(401).send('No authorization token found.');
-    // return;
-  }
-  const parts = req.headers.authorization.split(' ');
-  if (parts.length !== 2) {
-    throw new errors.Unauthorized('No authorization token found.');
-    // res.status(401).send('Bad credential format.');
-    // return;
-  }
-  const [scheme, credentials] = parts;
-  if (!/^Bearer$/i.test(scheme)) {
-    throw new errors.Unauthorized('Bad credential format.');
-  }
-  return credentials;
 };
 
-function checkAuth (fn) {
-  return function (req, res) {
-    if (!req.headers || !req.headers.authorization) {
-      res.status(401).send('No authorization token found.');
-      return;
-    }
-    const parts = req.headers.authorization.split(' ');
-    if (parts.length != 2) {
-      res.status(401).send('Bad credential format.');
-      return;
-    }
-    const scheme = parts[0];
-    const credentials = parts[1];
-
-    if (!/^Bearer$/i.test(scheme)) {
-      res.status(401).send('Bad credential format.');
-      return;
-    }
-    verifyToken(credentials, function (err) {
-      if (err) {
-        res.status(401).send('Invalid token');
-        return;
-      }
-      fn(req, res);
-    });
-  };
-}
-
-module.exports = function init(opts) {
-  const client = getClient(opts);
+module.exports = function init(config) {
+  try {
+    validateConfiguration(config);
+  } catch (error) {
+    throw error;
+  }
+  const authenticationService = authenticationServiceModule.init(config);
+  return Object.freeze({
+    checkAuth: authenticationService.checkAuth,
+  });
 };
