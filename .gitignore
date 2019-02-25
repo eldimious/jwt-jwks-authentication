@@ -1,4 +1,4 @@
-lib-cov
+dist-cov
 *.seed
 *.log
 *.csv
@@ -25,3 +25,16 @@ node_modules
 .env-prod.yaml
 *.pdf
 *.xlsx
+
+dist
+index.js
+
+# eslint files
+.eslintignore
+.eslintrc.js
+
+# Coverage directory used by tools like istanbul
+coverage
+
+# Compiled binary addons (http://nodejs.org/api/addons.html)
+build/Release
