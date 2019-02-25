@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
+  "engines" : {
+    "node" : ">=7.10.1" 
+  },
   "scripts": {
     "build": "cp -R src dist",
     "prepublish": "npm run build",
