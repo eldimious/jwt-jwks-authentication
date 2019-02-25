@@ -1,9 +1,16 @@
-const client = jwksClient({
-  cache: true,
-  rateLimit: true,
-  jwksRequestsPerMinute: 5,
-  jwksUri: "https://<auth0-account>.auth0.com/.well-known/jwks.json"
+const jwksClient = require('jwks-rsa');
+
+const getClient = opts => jwksClient({
+  cache: opts.cache || true,
+  rateLimit: opts.rateLimit || true,
+  jwksRequestsPerMinute: opts.requestsPerMinute || 10,
+  jwksUri: opts.jwksUri,
 });
+
+module.exports = function init(opts) {
+  const client = getClient(opts);
+};
+
 
 function verifyToken(token, cb) {
   let decodedToken;

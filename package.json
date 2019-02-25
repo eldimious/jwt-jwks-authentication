@@ -26,5 +26,9 @@
     "mocha": "^6.0.1",
     "sinon": "^7.2.4",
     "supertest": "^3.4.2"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^8.5.0",
+    "jwks-rsa": "^1.4.0"
   }
 }
