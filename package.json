@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "jsonwebtoken": "^8.5.0",
-    "jwks-rsa": "^1.4.0"
+    "jwks-rsa": "^1.4.0",
+    "ms": "^2.1.1"
   }
 }

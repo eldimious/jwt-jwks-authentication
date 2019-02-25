@@ -1,12 +1,16 @@
 const jwksClient = require('jwks-rsa');
 const jwt = require('jsonwebtoken');
+const ms = require('ms');
 
 function init(opts) {
   const client = jwksClient({
+    strictSsl: opts.cache || true,
     cache: opts.cache || true,
     rateLimit: opts.rateLimit || true,
-    jwksRequestsPerMinute: opts.requestsPerMinute || 10,
+    jwksRequestsPerMinute: opts.jwksRequestsPerMinute || 10,
     jwksUri: opts.jwksUri,
+    cacheMaxAge: opts.cacheMaxAge || ms('10h'),
+    cacheMaxEntries: opts.cacheMaxEntries || 5,
   });
 
   const decodeToken = (token) => {
@@ -19,7 +23,7 @@ function init(opts) {
     }
   };
 
-  const getJWTFromAuthHeader = function getJWTFromAuthHeader(req) {
+  const getJWTFromHeader = function getJWTFromHeader(req) {
     if (!req) {
       throw new Error('Req object not found.');
     }
@@ -37,9 +41,9 @@ function init(opts) {
     return credentials;
   };
 
-  const verifyToken = async function verifyToken(credentials, decodedToken) {
+  const verifyRSAToken = async function verifyRSAToken(credentials, kid) {
     return new Promise((resolve, reject) => {
-      client.getSigningKey(decodedToken.header.kid, (err, key) => {
+      client.getSigningKey(kid, (err, key) => {
         if (err) {
           return reject(new Error(`Invalid user token with error message: ${err.message}`));
         }
@@ -57,15 +61,32 @@ function init(opts) {
     });
   };
 
-  async function checkAuth(req) {
+  async function handleJWTWitFixedSecret(token) {
+    const jwtInfo = await jwt.verify(token, opts.secret);
+    return jwtInfo;
+  }
+
+  async function handleJWTWitRSA(token) {
     try {
-      const credentials = getJWTFromAuthHeader(req);
-      const decodedToken = decodeToken(credentials);
+      const decodedToken = decodeToken(token);
       if (!decodedToken) {
         throw new Error('Decode token error.');
       }
-      const tokenInfo = await verifyToken(credentials, decodedToken);
+      const kid = opts.kid || decodedToken.header.kid;
+      const tokenInfo = await verifyRSAToken(token, kid);
       return tokenInfo;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async function checkAuth(req) {
+    try {
+      const credentials = getJWTFromHeader(req);
+      if (opts.jwksUri) {
+        return handleJWTWitRSA(credentials);
+      }
+      return handleJWTWitFixedSecret(credentials);
     } catch (error) {
       throw error;
     }
@@ -75,6 +96,5 @@ function init(opts) {
     checkAuth,
   };
 }
-
 
 module.exports.init = init;
