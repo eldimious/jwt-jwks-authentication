@@ -1,5 +1,7 @@
 const authenticationServiceModule = require('./domain/authenticationService');
-
+const {
+  validateConfiguration,
+} = require('./domain/validationService');
 /*
   * @param {string} [config.jwksUri] jwks-rsa configuration object
   * @param {string} [config.kid] jwks-rsa fixed kid
@@ -11,13 +13,6 @@ const authenticationServiceModule = require('./domain/authenticationService');
   * @param {number} [config.cacheMaxEntries]
   * @param {boolean} [config.strictSsl]
 */
-
-const validateConfiguration = function validateConfiguration(config) {
-  if (!config || (!config.secret && !config.jwksUri)) {
-    throw new Error('Should pass either a public key from jwks (secret) or jwks-rsa configuration (jwksUri) configuration option to decode incoming JWT token');
-  }
-};
-
 module.exports = function init(config) {
   try {
     validateConfiguration(config);
