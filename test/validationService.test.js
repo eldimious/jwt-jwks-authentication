@@ -17,5 +17,11 @@ describe('validation service tests', () => {
       });
       expect(fn).to.be.undefined;
     });
+    it('should return throw error, bad config', async () => {
+      const fn = validateConfiguration({
+        secret: 'test',
+      });
+      expect(validateConfiguration).to.throw('Should pass either a public key from jwks (secret) or jwks-rsa configuration (jwksUri) configuration option to decode incoming JWT token.');
+    });
   });
 });
