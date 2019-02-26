@@ -25,7 +25,7 @@ node_modules
 .env-prod.yaml
 *.pdf
 *.xlsx
-
+.coveralls.yml
 dist
 index.js
 
