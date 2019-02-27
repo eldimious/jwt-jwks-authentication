@@ -14,12 +14,15 @@ function init(opts) {
   });
 
   const decodeToken = (token) => {
-    let decodedToken;
     try {
-      decodedToken = jwt.decode(token, { complete: true });
+      const decodedToken = jwt.decode(token, { complete: true });
+      if (!decodedToken) {
+        throw new Error('decodeToken undefined');
+      }
       return decodedToken;
     } catch (e) {
-      throw new Error(`Error decoded token with message: ${e.message}.`);
+      const msg = `Error decoded token with message: ${e.message}.`;
+      throw new Error(msg);
     }
   };
 
@@ -28,6 +31,7 @@ function init(opts) {
       throw new Error('Req object not found.');
     }
     if (!req.headers || !req.headers.authorization) {
+      console.log('111111')
       throw new Error('No authorization token found.');
     }
     const parts = req.headers.authorization.split(' ');
@@ -92,9 +96,11 @@ function init(opts) {
     }
   }
 
-  return {
+  return Object.freeze({
+    getJWTFromHeader,
+    decodeToken,
     checkAuth,
-  };
+  });
 }
 
 module.exports.init = init;
