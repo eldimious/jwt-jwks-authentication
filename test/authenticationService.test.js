@@ -13,9 +13,12 @@ const token = jwt.sign({ email: 'test@gmail.com', name: 'Dimos', id: 1 }, 'secre
 
 describe('authentication service tests', () => {
   describe('test decodeToken method', () => {
-    it('should return without any error, as we pass jwksUri', async () => {
+    it('should return decodedToken without any error', async () => {
       const decodedToken = decodeToken(token);
       expect(decodedToken).to.not.be.undefined;
+    });
+    it('should return error', async () => {
+      expect(decodeToken).to.throw();
     });
   });
 });

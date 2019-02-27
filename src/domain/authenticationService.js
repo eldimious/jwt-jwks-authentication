@@ -14,12 +14,15 @@ function init(opts) {
   });
 
   const decodeToken = (token) => {
-    let decodedToken;
     try {
-      decodedToken = jwt.decode(token, { complete: true });
+      const decodedToken = jwt.decode(token, { complete: true });
+      if (!decodedToken) {
+        throw new Error('decodeToken undefined');
+      }
       return decodedToken;
     } catch (e) {
-      throw new Error(`Error decoded token with message: ${e.message}.`);
+      const msg = `Error decoded token with message: ${e.message}.`
+      throw new Error(msg);
     }
   };
 
