@@ -93,6 +93,7 @@ function init(opts) {
   }
 
   return {
+    decodeToken,
     checkAuth,
   };
 }
