@@ -34,5 +34,14 @@ describe('authentication service tests', () => {
       };
       expect(() => getJWTFromHeader(req)).to.throw('No authorization token found.'); 
     });
+    it('should return error, token not found', async () => {
+      const err = new Error('No authorization token found.');
+      const req = {
+        headers: {
+          authorization: 'test'
+        },
+      };
+      expect(() => getJWTFromHeader(req)).to.throw('No authorization token found.'); 
+    });
   });
 });
