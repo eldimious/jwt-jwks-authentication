@@ -49,5 +49,14 @@ describe('authentication service tests', () => {
       };
       expect(() => getJWTFromHeader(req)).to.throw('Bad credential format.');
     });
+    it('should return token from header', async () => {
+      const req = {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      };
+      const credentials = getJWTFromHeader(req);
+      expect(credentials).to.not.be.undefined;
+    });
   });
 });
