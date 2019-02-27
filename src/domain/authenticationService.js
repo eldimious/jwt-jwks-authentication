@@ -17,7 +17,7 @@ function init(opts) {
     try {
       const decodedToken = jwt.decode(token, { complete: true });
       if (!decodedToken) {
-        throw new Error('decodeToken undefined');
+        throw new Error('decodeToken not found');
       }
       return decodedToken;
     } catch (e) {
