@@ -5,12 +5,15 @@ const authenticationModule = require('../src/domain/authenticationService');
 const {
   decodeToken,
   getJWTFromHeader,
-} = authenticationModule.init({});
+  handleJWTWitFixedSecret,
+} = authenticationModule.init({
+  secret: 'secret',
+});
 const userEmail = 'test@gmail.com';
 const userName = 'Dimos';
 const userId = 1;
 const jwtSecret = 'secret';
-const token = jwt.sign({ email: 'test@gmail.com', name: 'Dimos', id: 1 }, 'secret');
+const token = jwt.sign({ email: 'test@gmail.com', name: 'Dimos', id: 1 }, jwtSecret);
 
 describe('authentication service tests', () => {
   describe('test decodeToken method', () => {
@@ -57,6 +60,27 @@ describe('authentication service tests', () => {
       };
       const credentials = getJWTFromHeader(req);
       expect(credentials).to.not.be.undefined;
+    });
+  });
+  describe('test handleJWTWitFixedSecret method', () => {
+    it('should return decodedToken without any error', async () => {
+      const req = {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      };
+      const info = await handleJWTWitFixedSecret(getJWTFromHeader(req));
+      expect(info).to.not.be.undefined;
+      expect(info).to.be.an('object');
+      expect(info).to.have.all.deep.keys({
+        email: userEmail,
+        name: userName,
+        id: userId,
+        iat: 1551257916,
+      });
+      expect(info.email).to.equal(userEmail);
+      expect(info.name).to.equal(userName);
+      expect(info.id).to.equal(userId);
     });
   });
 });
