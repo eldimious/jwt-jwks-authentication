@@ -27,8 +27,12 @@ describe('authentication service tests', () => {
       const err = 'Req object not found.';
       expect(getJWTFromHeader).to.throw(err);
     });
-    // it('should return error', async () => {
-    //   expect(decodeToken).to.throw();
-    // });
+    it('should return error, missing req.headers.', async () => {
+      const err = new Error('No authorization token found.');
+      const req = {
+        headers: {},
+      };
+      expect(() => getJWTFromHeader(req)).to.throw('No authorization token found.'); 
+    });
   });
 });

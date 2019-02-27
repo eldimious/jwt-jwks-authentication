@@ -31,6 +31,7 @@ function init(opts) {
       throw new Error('Req object not found.');
     }
     if (!req.headers || !req.headers.authorization) {
+      console.log('111111')
       throw new Error('No authorization token found.');
     }
     const parts = req.headers.authorization.split(' ');
