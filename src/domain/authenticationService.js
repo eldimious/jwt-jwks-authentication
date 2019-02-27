@@ -21,7 +21,7 @@ function init(opts) {
       }
       return decodedToken;
     } catch (e) {
-      const msg = `Error decoded token with message: ${e.message}.`
+      const msg = `Error decoded token with message: ${e.message}.`;
       throw new Error(msg);
     }
   };

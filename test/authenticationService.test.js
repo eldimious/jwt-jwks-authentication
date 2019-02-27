@@ -3,7 +3,8 @@ const jwt = require('jsonwebtoken');
 const authenticationModule = require('../src/domain/authenticationService');
 
 const {
-  decodeToken
+  decodeToken,
+  getJWTFromHeader,
 } = authenticationModule.init({});
 const userEmail = 'test@gmail.com';
 const userName = 'Dimos';
@@ -20,5 +21,14 @@ describe('authentication service tests', () => {
     it('should return error', async () => {
       expect(decodeToken).to.throw();
     });
+  });
+  describe('test getJWTFromHeader method', () => {
+    it('should return error, missing req.', async () => {
+      const err = 'Req object not found.';
+      expect(getJWTFromHeader).to.throw(err);
+    });
+    // it('should return error', async () => {
+    //   expect(decodeToken).to.throw();
+    // });
   });
 });
