@@ -95,10 +95,11 @@ function init(opts) {
     }
   }
 
-  return {
+  return Object.freeze({
+    getJWTFromHeader,
     decodeToken,
     checkAuth,
-  };
+  });
 }
 
 module.exports.init = init;
