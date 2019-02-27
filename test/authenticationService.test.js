@@ -28,20 +28,26 @@ describe('authentication service tests', () => {
       expect(getJWTFromHeader).to.throw(err);
     });
     it('should return error, missing req.headers.', async () => {
-      const err = new Error('No authorization token found.');
       const req = {
         headers: {},
       };
-      expect(() => getJWTFromHeader(req)).to.throw('No authorization token found.'); 
+      expect(() => getJWTFromHeader(req)).to.throw('No authorization token found.');
     });
     it('should return error, token not found', async () => {
-      const err = new Error('No authorization token found.');
       const req = {
         headers: {
-          authorization: 'test'
+          authorization: 'test',
         },
       };
-      expect(() => getJWTFromHeader(req)).to.throw('No authorization token found.'); 
+      expect(() => getJWTFromHeader(req)).to.throw('No authorization token found.');
+    });
+    it('should return error, bad credential format', async () => {
+      const req = {
+        headers: {
+          authorization: 'test 12313',
+        },
+      };
+      expect(() => getJWTFromHeader(req)).to.throw('Bad credential format.');
     });
   });
 });
