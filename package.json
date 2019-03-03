@@ -1,5 +1,5 @@
 {
-  "name": "auth0-authentication",
+  "name": "jwt-jwks-authentication",
   "version": "1.0.1",
   "description": "",
   "main": "dist/index.js",
