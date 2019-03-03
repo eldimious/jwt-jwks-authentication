@@ -1,6 +1,9 @@
 const jwksClient = require('jwks-rsa');
 const jwt = require('jsonwebtoken');
 const ms = require('ms');
+const {
+  validateResponse,
+} = require('./validationService');
 
 function init(opts) {
   const client = jwksClient({
@@ -95,11 +98,24 @@ function init(opts) {
     }
   }
 
+  async function authorize(req, res) {
+    try {
+      validateResponse(res);
+      req.user = await this.verify(req);
+      return;
+    } catch (error) {
+      res.writeHead(401);
+      res.end(error && error.message ? error.message : 'invalid token in Authorization header');
+      return;
+    }
+  }
+
   return Object.freeze({
     getJWTFromHeader,
     decodeToken,
     handleJWTWitFixedSecret,
     verify,
+    authorize,
   });
 }
 
