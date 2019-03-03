@@ -5,7 +5,8 @@ It retrieves RSA signing keys from a JWKS (JSON Web Key Set) endpoint if jwksUri
 secret provided.
 
 
-[![Build Status](https://travis-ci.org/eldimious/throw-http-errors.svg?branch=master)](https://travis-ci.org/eldimious/throw-http-errors) [![Coverage Status](https://coveralls.io/repos/github/eldimious/throw-http-errors/badge.svg?branch=master)](https://coveralls.io/github/eldimious/throw-http-errors?branch=master)
+[![Build Status](https://travis-ci.org/eldimious/auth0-authentication
+.svg?branch=master)](https://travis-ci.org/eldimious/auth0-authentication) [![Coverage Status](https://coveralls.io/repos/github/eldimious/auth0-authentication/badge.svg?branch=master)](https://coveralls.io/github/eldimious/auth0-authentication?branch=master)
 
 ## Usage
 

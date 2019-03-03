@@ -2,6 +2,7 @@ const authenticationServiceModule = require('./domain/authenticationService');
 const {
   validateConfiguration,
 } = require('./domain/validationService');
+
 /*
   * @param {string} [config.jwksUri] jwks-rsa configuration object
   * @param {string} [config.kid] jwks-rsa fixed kid
