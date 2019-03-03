@@ -17,19 +17,19 @@ const token = jwt.sign({ email: 'test@gmail.com', name: 'Dimos', id: 1 }, jwtSec
 
 describe('authentication module tests', () => {
   describe('test exported module', () => {
-    it('should return authorize method', async () => {
+    it('should return verify method', async () => {
       const authentication = authenticationFactory({
         secret: 'secret',
       });
       expect(authentication).to.not.be.undefined;
       expect(authentication).to.be.an('object');
-      expect(typeof(authentication.authorize)).to.eql('function');
+      expect(typeof(authentication.verify)).to.eql('function');
     });
     it('should return validation error', async () => {
       const err = 'Should pass either a public key from jwks (secret) or jwks-rsa configuration (jwksUri) configuration option to decode incoming JWT token.';
       expect(authenticationFactory).to.throw(err);
     });
-    describe('test authorize function', () => {
+    describe('test verify function', () => {
       it('should return token without error', async () => {
         const authentication = authenticationFactory({
           secret: 'secret',
@@ -39,8 +39,8 @@ describe('authentication module tests', () => {
             authorization: `Bearer ${token}`,
           },
         };
-        expect(typeof(authentication.authorize)).to.eql('function');
-        const decodedToken = await authentication.authorize(req);
+        expect(typeof(authentication.verify)).to.eql('function');
+        const decodedToken = await authentication.verify(req);
         expect(decodedToken).to.not.be.undefined;
         expect(decodedToken).to.be.an('object');
         expect(decodedToken.email).to.equal(userEmail);
@@ -55,7 +55,7 @@ describe('authentication module tests', () => {
           headers: {
           },
         };
-        await expect(authentication.authorize(req)).to.eventually.be.rejectedWith(Error);
+        await expect(authentication.verify(req)).to.eventually.be.rejectedWith(Error);
       });
     });
   });
