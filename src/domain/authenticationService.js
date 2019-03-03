@@ -83,7 +83,7 @@ function init(opts) {
     }
   }
 
-  async function checkAuth(req) {
+  async function authorize(req) {
     try {
       const credentials = getJWTFromHeader(req);
       if (opts.jwksUri) {
@@ -99,7 +99,7 @@ function init(opts) {
     getJWTFromHeader,
     decodeToken,
     handleJWTWitFixedSecret,
-    checkAuth,
+    authorize,
   });
 }
 

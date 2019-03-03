@@ -21,6 +21,6 @@ module.exports = function init(config) {
   }
   const authenticationService = authenticationServiceModule.init(config);
   return Object.freeze({
-    checkAuth: authenticationService.checkAuth,
+    authorize: authenticationService.authorize,
   });
 };
