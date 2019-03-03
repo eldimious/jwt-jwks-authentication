@@ -81,34 +81,25 @@ describe('authentication module tests', () => {
         const authentication = authenticationFactory({
           secret: 'secret',
         });
-        await expect(authentication.authorize(req, res)).to.eventually.be.rejectedWith(Error);
+        req = {
+          headers: {
+          },
+        };
+        await authentication.authorize(req, res);
+        expect(res.code).to.eql(401);
+        expect(res.message).to.eql('No authorization token found.');
       });
-      // it('should return token without error', async () => {
+      // it('should return token without error and passing info to res.user object', async () => {
       //   const authentication = authenticationFactory({
       //     secret: 'secret',
       //   });
-      //   const req = {
+      //   req = {
       //     headers: {
       //       authorization: `Bearer ${token}`,
       //     },
       //   };
-      //   expect(typeof(authentication.verify)).to.eql('function');
-      //   const decodedToken = await authentication.verify(req);
-      //   expect(decodedToken).to.not.be.undefined;
-      //   expect(decodedToken).to.be.an('object');
-      //   expect(decodedToken.email).to.equal(userEmail);
-      //   expect(decodedToken.name).to.equal(userName);
-      //   expect(decodedToken.id).to.equal(userId);
-      // });
-      // it('should return error', async () => {
-      //   const authentication = authenticationFactory({
-      //     secret: 'secret',
-      //   });
-      //   const req = {
-      //     headers: {
-      //     },
-      //   };
-      //   await expect(authentication.verify(req)).to.eventually.be.rejectedWith(Error);
+      //   await authentication.verify(req, res);
+      //   console.log('res', res.status)
       // });
     });
   });
