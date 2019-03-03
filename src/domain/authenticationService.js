@@ -102,10 +102,8 @@ function init(opts) {
     try {
       validateResponse(res);
       req.user = await this.verify(req);
-      console.log('req.user', req.user)
       return;
     } catch (error) {
-      console.log('111111111', error)
       res.status(401);
       res.send(error && error.message ? error.message : 'invalid token in Authorization header');
       return;

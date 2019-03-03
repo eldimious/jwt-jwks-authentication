@@ -17,6 +17,7 @@ const token = jwt.sign({ email: 'test@gmail.com', name: 'Dimos', id: 1 }, jwtSec
 let req;
 let res;
 
+
 describe('authentication module tests', () => {
   beforeEach(() => {
     req = mockRequest();
@@ -89,18 +90,21 @@ describe('authentication module tests', () => {
         expect(res.code).to.eql(401);
         expect(res.message).to.eql('No authorization token found.');
       });
-      // it('should return token without error and passing info to res.user object', async () => {
-      //   const authentication = authenticationFactory({
-      //     secret: 'secret',
-      //   });
-      //   req = {
-      //     headers: {
-      //       authorization: `Bearer ${token}`,
-      //     },
-      //   };
-      //   await authentication.verify(req, res);
-      //   console.log('res', res.status)
-      // });
+      it('should return token without error and passing info to res.user object', async () => {
+        const authentication = authenticationFactory({
+          secret: 'secret',
+        });
+        req = {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        };
+        await authentication.authorize(req, res);
+        expect(req.user).to.be.an('object');
+        expect(req.user.email).to.equal(userEmail);
+        expect(req.user.name).to.equal(userName);
+        expect(req.user.id).to.equal(userId);
+      });
     });
   });
 });
