@@ -13,7 +13,7 @@ const {
   * @param {number} [config.cacheMaxEntries]
   * @param {boolean} [config.strictSsl]
 */
-function init(config) {
+module.exports = function init(config) {
   try {
     validateConfiguration(config);
   } catch (error) {
@@ -23,6 +23,4 @@ function init(config) {
   return Object.freeze({
     checkAuth: authenticationService.checkAuth,
   });
-}
-
-module.exports = init;
+};
