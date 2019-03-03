@@ -1,6 +1,13 @@
-const { expect } = require('chai');
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
+
 const jwt = require('jsonwebtoken');
 const authenticationFactory = require('../src');
+
+chai.use(chaiAsPromised);
+const {
+  expect,
+} = chai;
 
 const userEmail = 'test@gmail.com';
 const userName = 'Dimos';
@@ -22,9 +29,8 @@ describe('authentication module tests', () => {
       const err = 'Should pass either a public key from jwks (secret) or jwks-rsa configuration (jwksUri) configuration option to decode incoming JWT token.';
       expect(authenticationFactory).to.throw(err);
     });
-
-    describe('test exported function', () => {
-      it('should return checkAuth method', async () => {
+    describe('test checkAuth function', () => {
+      it('should return token without error', async () => {
         const authentication = authenticationFactory({
           secret: 'secret',
         });
@@ -40,6 +46,16 @@ describe('authentication module tests', () => {
         expect(decodedToken.email).to.equal(userEmail);
         expect(decodedToken.name).to.equal(userName);
         expect(decodedToken.id).to.equal(userId);
+      });
+      it('should return error', async () => {
+        const authentication = authenticationFactory({
+          secret: 'secret',
+        });
+        const req = {
+          headers: {
+          },
+        };
+        await expect(authentication.checkAuth(req)).to.eventually.be.rejectedWith(Error);
       });
     });
   });
