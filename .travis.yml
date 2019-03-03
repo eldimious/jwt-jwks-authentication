@@ -8,4 +8,4 @@ cache:
 install:
   - npm install
 script:
-  - make test-coveralls
+  - make test

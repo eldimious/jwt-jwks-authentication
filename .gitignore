@@ -27,7 +27,7 @@ node_modules
 *.xlsx
 .coveralls.yml
 dist
-index.js
+/index.js
 
 # eslint files
 .eslintignore
