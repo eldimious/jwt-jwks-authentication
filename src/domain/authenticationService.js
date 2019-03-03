@@ -13,7 +13,7 @@ function init(opts) {
     cacheMaxEntries: opts.cacheMaxEntries || 5,
   });
 
-  const decodeToken = (token) => {
+  function decodeToken(token) {
     try {
       const decodedToken = jwt.decode(token, { complete: true });
       if (!decodedToken) {
@@ -24,9 +24,9 @@ function init(opts) {
       const msg = `Error decoded token with message: ${e.message}.`;
       throw new Error(msg);
     }
-  };
+  }
 
-  const getJWTFromHeader = function getJWTFromHeader(req) {
+  function getJWTFromHeader(req) {
     if (!req) {
       throw new Error('Req object not found.');
     }
@@ -42,9 +42,9 @@ function init(opts) {
       throw new Error('Bad credential format.');
     }
     return credentials;
-  };
+  }
 
-  const verifyRSAToken = async function verifyRSAToken(credentials, kid) {
+  async function verifyRSAToken(credentials, kid) {
     return new Promise((resolve, reject) => {
       client.getSigningKey(kid, (err, key) => {
         if (err) {
@@ -62,7 +62,7 @@ function init(opts) {
         });
       });
     });
-  };
+  }
 
   async function handleJWTWitFixedSecret(token) {
     const jwtInfo = await jwt.verify(token, opts.secret);
