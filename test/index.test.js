@@ -77,16 +77,11 @@ describe('authentication module tests', () => {
         };
         await expect(authentication.authorize(req)).to.eventually.be.rejectedWith(Error);
       });
-      it('should return error, not passing res', async () => {
+      it('should return error, not passing correct req - missing authorization header', async () => {
         const authentication = authenticationFactory({
           secret: 'secret',
         });
-        req = {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        };
-        await expect(authentication.authorize(req)).to.eventually.be.rejectedWith(Error);
+        await expect(authentication.authorize(req, res)).to.eventually.be.rejectedWith(Error);
       });
       // it('should return token without error', async () => {
       //   const authentication = authenticationFactory({
