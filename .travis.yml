@@ -8,4 +8,5 @@ cache:
 install:
   - npm install
 script:
-  - make test
+  - npm run test
+after_success: npm run coverage
