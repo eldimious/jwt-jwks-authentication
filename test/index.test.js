@@ -2,7 +2,7 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const jwt = require('jsonwebtoken');
 const authenticationFactory = require('../src');
-const { mockRequest, mockResponse } = require('./data');
+const { mockRequest, mockResponse } = require('./mockedData');
 
 chai.use(chaiAsPromised);
 const {
