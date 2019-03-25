@@ -1,6 +1,6 @@
 const authenticationServiceModule = require('./domain/authenticationService');
 const {
-  validateConfiguration,
+  validateConfigurationParam,
 } = require('./domain/validationService');
 
 /*
@@ -16,7 +16,7 @@ const {
 */
 module.exports = function init(config) {
   try {
-    validateConfiguration(config);
+    validateConfigurationParam(config);
   } catch (error) {
     throw error;
   }

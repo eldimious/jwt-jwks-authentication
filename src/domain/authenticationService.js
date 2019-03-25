@@ -2,7 +2,7 @@ const jwksClient = require('jwks-rsa');
 const jwt = require('jsonwebtoken');
 const ms = require('ms');
 const {
-  validateResponse,
+  validateResParam,
 } = require('./validationService');
 
 function init(opts) {
@@ -100,7 +100,7 @@ function init(opts) {
 
   async function authorize(req, res) {
     try {
-      validateResponse(res);
+      validateResParam(res);
       req.user = await this.verify(req);
       return;
     } catch (error) {
