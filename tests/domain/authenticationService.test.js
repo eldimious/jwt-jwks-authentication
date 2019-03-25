@@ -1,6 +1,6 @@
 const { expect } = require('chai');
 const jwt = require('jsonwebtoken');
-const authenticationModule = require('../src/domain/authenticationService');
+const authenticationModule = require('../../src/domain/authenticationService');
 
 const {
   decodeToken,

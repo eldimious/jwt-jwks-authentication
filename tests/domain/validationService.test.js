@@ -2,8 +2,8 @@ const { expect } = require('chai');
 const {
   validateConfigurationParam,
   validateResParam,
-} = require('../src/domain/validationService');
-const { mockResponse } = require('./mockedData');
+} = require('../../src/domain/validationService');
+const { mockResponse } = require('../mockedData');
 
 const res = mockResponse();
 
