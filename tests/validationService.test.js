@@ -37,5 +37,8 @@ describe('validation service tests', () => {
     it('should return throw error, res missing', async () => {
       expect(validateResParam).to.throw('Should pass res as function parameter.');
     });
+    it('should return throw error, res not an object', async () => {
+      expect(() => validateResParam(1)).to.throw('Should pass res as function parameter.');
+    });
   });
 });
