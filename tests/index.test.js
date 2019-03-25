@@ -1,8 +1,9 @@
 const chai = require('chai');
+require('dotenv').config();
 const chaiAsPromised = require('chai-as-promised');
 const jwt = require('jsonwebtoken');
 const authenticationFactory = require('../src');
-const { mockRequest, mockResponse } = require('./data');
+const { mockRequest, mockResponse } = require('./mockedData');
 
 chai.use(chaiAsPromised);
 const {
@@ -54,6 +55,33 @@ describe('authentication module tests', () => {
         expect(decodedToken.email).to.equal(userEmail);
         expect(decodedToken.name).to.equal(userName);
         expect(decodedToken.id).to.equal(userId);
+      });
+      it('should return error', async () => {
+        const authentication = authenticationFactory({
+          secret: 'secret',
+        });
+        req = {
+          headers: {
+          },
+        };
+        await expect(authentication.verify(req)).to.eventually.be.rejectedWith(Error);
+      });
+    });
+    describe('test verify function using jwks', () => {
+      it('should return token without error', async () => {
+        const authentication = authenticationFactory({
+          jwksUri: process.env.JWKS_URL,
+        });
+        req = {
+          headers: {
+            authorization:`Bearer ${process.env.JWT}`,
+          },
+        };
+        expect(typeof(authentication.verify)).to.eql('function');
+        const decodedToken = await authentication.verify(req);
+        expect(decodedToken).to.not.be.undefined;
+        expect(decodedToken).to.be.an('object');
+        expect(decodedToken.iss).to.equal(process.env.AUTH0_URL);
       });
       it('should return error', async () => {
         const authentication = authenticationFactory({

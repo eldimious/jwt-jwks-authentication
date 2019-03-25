@@ -1,12 +1,16 @@
 language: node_js
 node_js:
-  - "8"
-  - "10"
-cache:  
+- '8'
+- '10'
+cache:
   directories:
-    - "node_modules"
+  - node_modules
 install:
-  - npm install
+- npm install
 script:
-  - npm run test
+- npm run test
 after_success: npm run coverage
+env:
+  global:
+  - secure: T5RwwdJho/4WYbgREQ6O5xvZmTgYKBJQt2zCEIva1KFUBSu6nH1hWSQKQkenBJlTnrOqevjA91w64ix9EgZLklSXJLaft0RPmDPQwAfWsBzwTpsmi1SloXgoD9fepr3lgkGYHll0DXQhN1Dn0lHL5YHd2/mpq2PZIJq4Kkidl3I+36BL8Aqd+Jw6padYyR78c/74eUlb77ntHpC4tqqHJglRrTJInDHkZPukLn4SwPRrFEJNDtWi3E2JlaOX8fTPd8E/NlZeEG8EplXJhw8d0f/elzaqey3XtBczcADX9ZuoEcbd2QL+9DxhTZLGKuqMzus67xqX2zSpLqHmxXlHbj2ktjrpnuteTXvrwFzN7TpbrPHeNJTECUyBsEZwyAJ0ZEK/y3+aJpSU4ePwk+s87811wr5MnP8inQYz7k3HI0bGKeQqR41GZaMxuxwYG9/65j8pFBRD2e/F2tJjnSSb58BdZ/3gVH+tfI89Zn90mv+Gx52jlZN1Xq/G0v+6haR/SQRbcnmVniF49T5uPtpUjcORBPponxOL46cX1qYNDcQuhd4AUkVSaXco9COc/Q6ARhEu4jrAKMRdJL/IZvQtkUc4jP0NNyuaX0w4h9xhSHO6yWEtOen6YH0aJuFgD4TkobSI8MDyUzUfkWP1OwAXBXIL/i1t0sMwFj1oMSwYQaw=
+  - secure: qyICvfQNoKnzglp6CDJh3XA4wVJZqBBEM7H98Qxq6QAP0zjXXZC6YbdBrrfsQde6qDktz6RFAjh2CRMxzP39CGd66FWB6JRJ1tdv/FynG/SvvrIgHx/el4LMdF7HApkLXWlfc9RVDJBis9Tmeaj3ryiaVD0+RuoAsVmps8F/hHlJj8PTTIkiU5Q+FkgFeRuOFY7FaVl36DfC9vCofQxC4N6BIvEprD1dv/QKMz6YmKlv/RQQ0hQnuY2aZVrd4+2K3kyR3BtcPUsWzl4MVuDsaMU5tsGN8tc3ev5WGVg1jNj4D7mMIRRX+P7tg1wP3CYgBhL9O1Ysnm1BdLw6QDpsxRjAFk4RYILONBiaG0Bk+Y1tCXo+dRc3g7VIy9yKn7WFo1TYae3Stq/3pgFeV1JPIeP8LONNhBNl8dP8ll/Ya6j2+L6gpjVV5835TqtHPNiaODrTJt/ogIP88yCAWBDTZrwIjjuilT2IPihDUYLBu9+MHyb6QwTYNnc7vjktG6WEeV2QMrTxmyuFQl9FQ1fWckU2FtG39c6/lPq+kkTrkkHbcdZhOuzT1OKjpGglOI6FUXTiVj+NSVheUe1qPxfCLOJGl7rLmkdpQbC1McSN7y5aDu3f8F+QuAAzOn0NWlLNVdMjb0GBYPm/T6xEWML6iY3Pi9ffWhJ782KGHEHDNIc=
