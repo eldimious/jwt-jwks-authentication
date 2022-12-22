@@ -41,7 +41,7 @@
     "supertest": "^3.4.2"
   },
   "dependencies": {
-    "jsonwebtoken": "^8.5.0",
+    "jsonwebtoken": "^9.0.0",
     "jwks-rsa": "^1.4.0",
     "ms": "^2.1.1"
   }
